@@ -55,7 +55,56 @@ function setupEventListeners() {
     // Book ride button on home page
     elements.bookRideBtn.addEventListener('click', () => switchPage('book'));
 }
+// Add this near your other event listeners
+function setupPWAInstallPrompt() {
+  let deferredPrompt;
 
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
+    e.preventDefault();
+    // Stash the event so it can be triggered later
+    deferredPrompt = e;
+    
+    // Show your custom install button/prompt
+    showInstallButton();
+  });
+
+  function showInstallButton() {
+    const installBtn = document.createElement('button');
+    installBtn.id = 'install-btn';
+    installBtn.innerHTML = '<i class="fas fa-download"></i> Install App';
+    installBtn.className = 'primary-btn';
+    installBtn.style.position = 'fixed';
+    installBtn.style.bottom = '20px';
+    installBtn.style.right = '20px';
+    installBtn.style.zIndex = '1000';
+    
+    installBtn.addEventListener('click', () => {
+      // Hide our user interface
+      installBtn.style.display = 'none';
+      // Show the install prompt
+      deferredPrompt.prompt();
+      // Wait for the user to respond to the prompt
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted install');
+        } else {
+          console.log('User dismissed install');
+        }
+        deferredPrompt = null;
+      });
+    });
+
+    document.body.appendChild(installBtn);
+  }
+}
+
+// Call this in your initApp function
+function initApp() {
+  loadTheme();
+  setupEventListeners();
+  setupPWAInstallPrompt(); // Add this line
+}
 // Setup booking page specific listeners
 function setupBookingPageListeners() {
     // Current location button
@@ -81,10 +130,16 @@ function switchPage(pageId) {
         item.classList.toggle('active', item.dataset.page === pageId);
     });
     
-    // Show/hide pages
+    // Hide all pages first
     elements.pages.forEach(page => {
-        page.classList.toggle('active', page.id === `${pageId}-page`);
+        page.classList.remove('active');
     });
+    
+    // Show the selected page
+    const activePage = document.getElementById(`${pageId}-page`);
+    if (activePage) {
+        activePage.classList.add('active');
+    }
     
     // Initialize map if booking page is shown
     if (pageId === 'book' && !map) {

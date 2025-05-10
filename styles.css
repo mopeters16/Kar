@@ -121,17 +121,30 @@ body {
 
 /* Content Area */
 .content-area {
+    position: relative;
     flex: 1;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 .page {
-    display: none;
-    padding-bottom: 1rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    padding-bottom: 4rem;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
 }
 
 .page.active {
-    display: block;
+    position: relative;
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
 }
 
 /* Home Page */
@@ -524,4 +537,23 @@ body {
     .hero-content h1 {
         font-size: 1.8rem;
     }
+}
+#install-btn {
+  padding: 0.8rem 1.2rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+  #install-btn {
+    bottom: 70px !important;
+    right: 15px !important;
+  }
 }
