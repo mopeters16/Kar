@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kar | Modern PWA</title>
+    <meta name="theme-color" content="#6366f1">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet Geocoder -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation Bar -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-car-side"></i>
+                <span>Kar</span>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item active" data-page="home">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </li>
+                <li class="nav-item" data-page="book">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Book Ride</span>
+                </li>
+                <li class="nav-item" data-page="account">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Account</span>
+                </li>
+            </ul>
+            <button id="theme-toggle" class="nav-theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+            <!-- Home Page (Default) -->
+            <div class="page active" id="home-page">
+                <div class="hero-section">
+                    <div class="hero-content">
+                        <h1>Ride with Confidence</h1>
+                        <p>Safe, reliable rides at affordable prices</p>
+                        <button class="primary-btn book-ride-btn">
+                            <i class="fas fa-taxi"></i> Book a Ride Now
+                        </button>
+                    </div>
+                    <div class="hero-image">
+                        <img src="assets/illustrations/ride-sharing.svg" alt="Ride sharing illustration">
+                    </div>
+                </div>
+
+                <div class="features-section">
+                    <h2><i class="fas fa-star"></i> Why Choose Us</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-shield-alt"></i>
+                            <h3>Safe Rides</h3>
+                            <p>Verified drivers and 24/7 support</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-bolt"></i>
+                            <h3>Fast Pickup</h3>
+                            <p>Average wait time under 5 minutes</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-wallet"></i>
+                            <h3>Affordable</h3>
+                            <p>Upfront pricing with no surprises</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ride Booking Page -->
+            <div class="page" id="book-page">
+                <!-- Map Container -->
+                <div id="map"></div>
+
+                <!-- Location Inputs -->
+                <div class="location-controls">
+                    <div class="address-search">
+                        <i class="fas fa-search-location"></i>
+                        <input type="text" id="start-address" placeholder="Current location">
+                        <button id="detect-location" class="icon-btn" title="Use current location">
+                            <i class="fas fa-location-arrow"></i>
+                        </button>
+                    </div>
+                    <div class="address-search">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" id="destination-address" placeholder="Destination">
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button id="find-ride" class="action-btn primary-btn">
+                        <i class="fas fa-taxi"></i> Find Ride
+                    </button>
+                    <button id="offer-ride" class="action-btn secondary-btn">
+                        <i class="fas fa-user-friends"></i> Drive
+                    </button>
+                </div>
+
+                <!-- Ride Details Card -->
+                <div class="ride-details-card">
+                    <div class="details-header">
+                        <h3><i class="fas fa-info-circle"></i> Ride Details</h3>
+                    </div>
+                    <div class="details-body">
+                        <div id="status">Ready to ride</div>
+                        <div class="detail-row">
+                            <span><i class="fas fa-clock"></i> ETA:</span>
+                            <span id="eta">--</span>
+                        </div>
+                        <div class="detail-row">
+                            <span><i class="fas fa-money-bill-wave"></i> Price:</span>
+                            <span id="price">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Page -->
+            <div class="page" id="account-page">
+                <div class="account-container">
+                    <h2><i class="fas fa-user-circle"></i> My Account</h2>
+                    <div class="account-details">
+                        <div class="account-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="account-info">
+                            <h3>User Name</h3>
+                            <p>user@example.com</p>
+                            <div class="account-stats">
+                                <div class="stat">
+                                    <span>25</span>
+                                    <small>Rides</small>
+                                </div>
+                                <div class="stat">
+                                    <span>4.9</span>
+                                    <small>Rating</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="account-actions">
+                        <button class="account-btn">
+                            <i class="fas fa-cog"></i> Settings
+                        </button>
+                        <button class="account-btn">
+                            <i class="fas fa-history"></i> Ride History
+                        </button>
+                        <button class="account-btn">
+                            <i class="fas fa-sign-out-alt"></i> Sign Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    
+    <!-- Main App Script -->
+    <script src="app.js"></script>
+</body>
+</html>
