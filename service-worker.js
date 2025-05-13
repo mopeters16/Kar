@@ -17,11 +17,8 @@ const ASSETS_TO_CACHE = [
   // App assets
   '/assets/icons/icon-72.png',
   '/assets/icons/icon-96.png',
-  '/assets/icons/icon-128.png',
   '/assets/icons/icon-144.png',
-  '/assets/icons/icon-152.png',
   '/assets/icons/icon-192.png',
-  '/assets/icons/icon-384.png',
   '/assets/icons/icon-512.png',
   '/assets/illustrations/ride-sharing.svg',
   '/assets/screenshots/screenshot1.png',
