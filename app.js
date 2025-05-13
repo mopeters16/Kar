@@ -103,7 +103,8 @@ function setupPWAInstallPrompt() {
 function initApp() {
   loadTheme();
   setupEventListeners();
-  setupPWAInstallPrompt(); // Add this line
+  setupPWAInstallPrompt();  
+  switchPage('home');
 }
 // Setup booking page specific listeners
 function setupBookingPageListeners() {
@@ -139,18 +140,18 @@ function switchPage(pageId) {
     const activePage = document.getElementById(`${pageId}-page`);
     if (activePage) {
         activePage.classList.add('active');
-    }
-    
-    // Initialize map if booking page is shown
-    if (pageId === 'book' && !map) {
-        initMap();
-    }
-    
-    // Resize map when booking page is shown
-    if (pageId === 'book' && map) {
-        setTimeout(() => {
-            map.invalidateSize();
-        }, 300);
+        
+        // Initialize map if booking page is shown
+        if (pageId === 'book' && !map) {
+            initMap();
+        }
+        
+        // Resize map when booking page is shown
+        if (pageId === 'book' && map) {
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 300);
+        }
     }
 }
 
@@ -449,6 +450,21 @@ function debounce(func, timeout = 300) {
         clearTimeout(timer);
         timer = setTimeout(() => { func.apply(this, args); }, timeout);
     };
+}
+// Initialize the app when DOM is ready
+document.addEventListener('DOMContentLoaded', initApp);
+
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('ServiceWorker registered');
+            })
+            .catch(err => {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+    });
 }
 
 // Service Worker Registration
