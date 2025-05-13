@@ -451,14 +451,6 @@ function debounce(func, timeout = 300) {
     };
 }
 
-// Initialize the app
-function initApp() {
-    loadTheme();
-    setupEventListeners();
-}
-
-window.onload = initApp;
-
 // Service Worker Registration
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
