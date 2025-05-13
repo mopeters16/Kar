@@ -2,7 +2,7 @@ const CACHE_NAME = 'kar-rideshare-v1.2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
-  './styles.css',
+  './_styles.css',
   './app.js',
   './manifest.json',
   
