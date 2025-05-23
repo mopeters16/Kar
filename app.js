@@ -126,20 +126,23 @@ function setupBookingPageListeners() {
 
 // Switch between pages
 function switchPage(pageId) {
+    // Get current and new pages
+    const currentPage = document.querySelector('.page.active');
+    const newPage = document.getElementById(`${pageId}-page`);
+    
+    if (!newPage || currentPage === newPage) return;
+    
     // Update active nav item
     elements.navItems.forEach(item => {
         item.classList.toggle('active', item.dataset.page === pageId);
     });
     
-    // Hide all pages first
-    elements.pages.forEach(page => {
-        page.classList.remove('active');
-    });
+    // Start transition
+    currentPage.classList.remove('active');
     
-    // Show the selected page
-    const activePage = document.getElementById(`${pageId}-page`);
-    if (activePage) {
-        activePage.classList.add('active');
+    // Wait for fade out before showing new page
+    setTimeout(() => {
+        newPage.classList.add('active');
         
         // Initialize map if booking page is shown
         if (pageId === 'book' && !map) {
@@ -152,7 +155,7 @@ function switchPage(pageId) {
                 map.invalidateSize();
             }, 300);
         }
-    }
+    }, 300);
 }
 
 // Handle address input with debounce
